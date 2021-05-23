@@ -8,15 +8,10 @@ public class BankAccount {
     private short pin;
 
     public BankAccount(String accountName, boolean parental, short pin) {
-        if (Short.toString(pin).length() == 4) {
+        if (Short.toString(pin).length() == 4 && !accountStorage.getHashMap().containsKey(accountName)) {
             this.accountName = accountName;
             this.parental = parental;
             this.pin = pin;
-
-            if (!accuontStorage.getHashMap().containsKey(accountName)) {
-                accuontStorage.addAccount(accountName, pin);
-            }
-
         }
     }
 

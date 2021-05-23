@@ -7,9 +7,17 @@ public class DebitCard {
     private String accountName;
     private BankAccount bankAccount;
 
-    public DebitCard(int cardNumber, BankAccount bankAccount) {
+    public DebitCard(int cardNumber, String accountName) {
         this.cardNumber = cardNumber;
-        this.bankAccount = bankAccount;
+        this.accountName = accountName;
+
+        if (!cardStorage.getCardStorage().containsKey(accountName)) {
+            cardStorage.getCardStorage().put(accountName, cardNumber);
+        }
+    }
+
+    public BankAccount getBankAccount() {
+        return this.bankAccount;
     }
 
     public long getBalance() {
@@ -35,15 +43,4 @@ public class DebitCard {
     public void setAccountName(String accountName) {
         this.accountName = accountName;
     }
-
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
-    }
-
-
-
 }
