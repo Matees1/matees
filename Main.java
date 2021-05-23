@@ -1,6 +1,5 @@
 package net.matees;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 import net.matees.Bank.*;
@@ -257,7 +256,7 @@ public class Main {
                 String accountNameLoginScannerIn = accountNameLoginScanner.nextLine();
 
                 for (String accountNameForLoop : accountStorage.getCardBankDetails().keySet()) {
-                    if (accountNameForLoop.equals(accountNameForLoop)) {
+                    if (accountNameForLoop.equals(accountNameLoginScannerIn)) {
 
                         System.out.println("\n");
                         System.out.println("\n");
