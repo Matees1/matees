@@ -182,7 +182,7 @@ public class Main {
 
                     if (bankAccount.isParental()) {
                         System.out.println("\nYour account is parental controlled\n");
-                    }else{
+                    } else {
                         System.out.println("\nYour account is not parental controlled\n");
                     }
 
@@ -488,7 +488,7 @@ public class Main {
         }
     }
 
-    public static void atmMenu() {
+    public static void atmMenu() throws InterruptedException {
         //line breaks
         System.out.println("\n");
         System.out.println("\n");
@@ -499,7 +499,113 @@ public class Main {
         System.out.println("\n");
         //line breaks
 
-
+        Thread.sleep(1000);
+        Scanner actionAtmSacnner = new Scanner(System.in);
         System.out.println("What would you like to do in the atm?");
+        System.out.println("Your options are Withdraw, and Deposit");
+        String actionAtmScannerIn = actionAtmSacnner.nextLine();
+
+        switch (actionAtmScannerIn.toLowerCase()) {
+            case "withdraw":
+
+                break;
+
+            case "deposit":
+                Thread.sleep(800);
+                System.out.println("\nTo deposit, you will have to log in to your bank account then your debitcard.\n");
+
+                Scanner bankAccountLogin = new Scanner(System.in);
+                System.out.println("Please enter in yor bank account name");
+                String bankAccountLoginIn = bankAccountLogin.nextLine();
+
+                Thread.sleep(500);
+
+                Scanner debitcardAccountLogin = new Scanner(System.in);
+                System.out.println("Now please enter in your debitcard account's name");
+                String debitcardAccountLoginIn = debitcardAccountLogin.nextLine();
+
+                if (accountStorage.getHashMap().containsKey(bankAccountLoginIn)) {
+                    if (accountStorage.getCardBankDetails().containsKey(debitcardAccountLoginIn)) {
+                        BankAccount bankAccount = accountStorage.getHashMap().get(bankAccountLoginIn);
+                        DebitCard cardAccount = accountStorage.getCardBankDetails().get(debitcardAccountLoginIn);
+
+                        //checks if the accounts are linked
+                        if (accountStorage.getBankCardLinkStorage().containsKey(bankAccount)) {
+                            if (accountStorage.getBankCardLinkStorage().get(bankAccount) == cardAccount) {
+                                Scanner ammount_deposit = new Scanner(System.in);
+                                System.out.println("What is the amount that you would you like to deposit into your bank account");
+                                String ammountDepoIn = ammount_deposit.nextLine();
+
+                                long depoAmmount = Long.parseLong(ammountDepoIn);
+
+                                Long cardBalance = cardAccount.getBalance();
+                                Long bankBalance = bankAccount.getBalance();
+
+                                //String cardBalance_string = Long.toString(cardBalance);
+                                //String bankBalance_string = Long.toString(bankBalance);
+
+                                if (depoAmmount <= cardBalance) {
+                                    cardAccount.setBalance(cardAccount.getBalance() - depoAmmount);
+                                    bankAccount.setBalance(bankAccount.getBalance() + depoAmmount);
+
+                                    System.out.println("Successfully deposited money!");
+
+                                    Thread.sleep(1000);
+
+                                    System.out.println("Returning to main menu!");
+
+                                    Thread.sleep(500);
+
+                                    mainMenu();
+                                    return;
+                                }else{
+                                    System.out.println("The amount you specified is larger than your balance! Returning to menu");
+                                        
+                                    Thread.sleep(1800);
+
+                                    mainMenu();
+                                    return;
+                                }
+                            }else{
+                                System.out.println("The account you specified is not linked to this card but another!");
+
+                                Thread.sleep(2000);
+
+                                mainMenu();
+                                return;
+                            }
+
+                        } else {
+                            System.out.println("That isn't a valid amount, make sure that you deposit money that you own!");
+
+                            Thread.sleep(1800);
+                            mainMenu();
+                            return;
+                        }
+                    } else {
+                        System.out.println("That was not a valid account! Returning to main menu!");
+
+                        Thread.sleep(1800);
+
+                        mainMenu();
+                        return;
+                    }
+                } else {
+                    System.out.println("That was not a valid account! Returning to main menu!");
+
+                    Thread.sleep(1800);
+
+                    mainMenu();
+                    return;
+                }
+
+            default:
+                System.out.println("That was not a proper response, returning to main menu!");
+
+                Thread.sleep(1800);
+
+                mainMenu();
+                return;
+        }
     }
 }
