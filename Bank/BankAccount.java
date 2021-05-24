@@ -2,7 +2,7 @@ package net.matees.Bank;
 
 public class BankAccount {
     private DebitCard card;
-    private long balance;
+    private long balance = 0;
     private String accountName;
     private boolean parental;
     private short pin;

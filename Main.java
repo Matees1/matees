@@ -138,10 +138,76 @@ public class Main {
                 }
 
             case "view":
+                //line breaks
+                System.out.println("\n");
+                System.out.println("\n");
+                System.out.println("\n");
+                System.out.println("\n");
+                System.out.println("\n");
+                System.out.println("\n");
+                System.out.println("\n");
+                //line breaks
+                Thread.sleep(2000);
+
                 Scanner bankAccountLogin_name_ = new Scanner(System.in);
                 System.out.println("What is the name of your bank account?");
                 String bankAccountLoginNameIn = bankAccountLogin_name_.nextLine();
-                break;
+
+                if (accountStorage.getHashMap().containsKey(bankAccountLoginNameIn)) {
+                    Thread.sleep(1500);
+
+                    BankAccount bankAccount = accountStorage.getHashMap().get(bankAccountLoginNameIn);
+
+                    System.out.println("\nSuccessfully logged in!\n");
+
+                    //get account details
+                    try {
+                        System.out.println("Your debitcard's account name is " + bankAccount.getDebitCard().getAccountName());
+                    } catch (NullPointerException e) {
+                        System.out.println("You do not have a debit card linked to your account.");
+                        Thread.sleep(1000);
+                    }
+
+                    System.out.println("\nYour account name is " + bankAccount.getAccountName());
+
+                    Thread.sleep(300);
+
+                    System.out.println("\nYour account balance is " + bankAccount.getBalance());
+
+                    Thread.sleep(300);
+
+                    System.out.println("\nYour account pin is " + bankAccount.getPin());
+
+                    Thread.sleep(300);
+
+                    if (bankAccount.isParental()) {
+                        System.out.println("\nYour account is parental controlled\n");
+                    }else{
+                        System.out.println("\nYour account is not parental controlled\n");
+                    }
+
+                    Scanner mainMenuQuestionScanner = new Scanner(System.in);
+                    System.out.println("Would you like to go the main menu or exit? Please type Exit or Menu");
+
+                    switch (mainMenuQuestionScanner.nextLine().toLowerCase()) {
+                        case "menu":
+                            mainMenu();
+                            return;
+
+                        case "exit":
+                            return;
+
+                        default:
+                            System.out.println("Going to main menu because you did not put a valid answer");
+                            mainMenu();
+                            return;
+                    }
+
+                } else {
+                    System.out.println("Cant find that account, please put in proper credentials!");
+                    mainMenu();
+                    return;
+                }
 
             case "configure":
 
@@ -367,10 +433,25 @@ public class Main {
                         System.out.println("\n");
                         System.out.println("\n");
 
-                        System.out.println("Your bank account which is linked to this card is " + card.getBankAccount().getAccountName());
+                        try {
+                            System.out.println("Your bank account's name, which is linked to this card is " + card.getBankAccount().getAccountName());
+                        } catch (NullPointerException e) {
+                            System.out.println("You do not have a bank account linked to this debit card.");
+                        }
+
                         System.out.println("Your account balance is " + card.getBalance());
-                        System.out.println("Your card number is " + card.getCardNumber());
+
+                        Thread.sleep(300);
+
                         System.out.println("And your account name is " + card.getAccountName() + "\n");
+
+                        Thread.sleep(300);
+
+
+                        System.out.println("Your card number is " + card.getCardNumber());
+
+                        Thread.sleep(300);
+
 
                         Scanner mainMenuQuestionScanner = new Scanner(System.in);
                         System.out.println("Would you like to go the main menu or exit? Please type Exit or Menu");
@@ -384,7 +465,8 @@ public class Main {
                                 return;
 
                             default:
-                                System.out.println("Exiting.");
+                                System.out.println("Going to main menu because you did not put a valid answer.");
+                                mainMenu();
                                 return;
                         }
                     } else {
@@ -407,6 +489,17 @@ public class Main {
     }
 
     public static void atmMenu() {
-        System.out.println("Atm");
+        //line breaks
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        System.out.println("\n");
+        //line breaks
+
+
+        System.out.println("What would you like to do in the atm?");
     }
 }
