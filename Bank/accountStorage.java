@@ -4,7 +4,19 @@ import java.util.HashMap;
 
 public class accountStorage {
     private static HashMap<String, BankAccount> hashMap = new HashMap<String, BankAccount>();
+
     private static HashMap<String, DebitCard> cardBankStorage = new HashMap<String, DebitCard>();
+
+    private static HashMap<BankAccount, DebitCard> bankCardLinkStorage = new HashMap<BankAccount, DebitCard>();
+
+    public static HashMap<BankAccount, DebitCard> getBankCardLinkStorage() {
+        return bankCardLinkStorage;
+    }
+
+    public static void setBankCardLinkStorage(HashMap<BankAccount, DebitCard> bankCardLinkStorage) {
+        accountStorage.bankCardLinkStorage = bankCardLinkStorage;
+    }
+
 
     public static HashMap<String, DebitCard> getCardBankDetails() {
         return cardBankStorage;

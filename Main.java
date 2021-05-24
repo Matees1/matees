@@ -83,7 +83,7 @@ public class Main {
                 String accountName = accountNameScanner_bank.nextLine();
                 if (accountStorage.getHashMap().containsKey(accountName)) {
                     System.out.println("This account name has already been taken, now you have to restart the process!");
-                    bankMenu();
+                    mainMenu();
                     return;
                 }
 
@@ -93,10 +93,20 @@ public class Main {
 
                 String pin = accountPinScanner_bank.nextLine();
 
-                Scanner accountParentalScaner_bank = new Scanner(System.in);
+                if (pin.length() != 4) {
+                    System.out.println("That was not 4!");
+                    System.out.println("RESTART!");
+
+                    Thread.sleep(1000);
+
+                    mainMenu();
+                    return;
+                }
+
+                Scanner accountParentalScanner_bank = new Scanner(System.in);
                 System.out.println("Would you like this account to be a parental controlled account?");
                 System.out.println("Please answer using y/n");
-                String accountParentalString = accountNameScanner_bank.nextLine();
+                String accountParentalString = accountParentalScanner_bank.nextLine();
 
                 boolean parental;
 
@@ -107,7 +117,7 @@ public class Main {
                     parental = false;
                 } else {
                     System.out.println("Please enter a valid response next time! Now you will have to restart the process!");
-                    bankMenu();
+                    mainMenu();
                     return;
                 }
 
@@ -117,15 +127,20 @@ public class Main {
                     accountStorage.getHashMap().put(accountName, account);
                     System.out.println("Account successfully put into the system!");
 
+                    Thread.sleep(1000);
+
+                    mainMenu();
+                    return;
                 } else {
                     System.out.println("This pin is not 4 digits, now you must repeat the process!");
-                    bankMenu();
+                    mainMenu();
                     return;
                 }
-                break;
 
             case "view":
-                System.out.println("view");
+                Scanner bankAccountLogin_name_ = new Scanner(System.in);
+                System.out.println("What is the name of your bank account?");
+                String bankAccountLoginNameIn = bankAccountLogin_name_.nextLine();
                 break;
 
             case "configure":
@@ -140,13 +155,94 @@ public class Main {
                 System.out.println("\n");
                 //line breaks
 
+                Scanner bankAccountLogin_name = new Scanner(System.in);
+                System.out.println("Please type in your bank account's name.");
+                String bankAccountLogin_nameIn = bankAccountLogin_name.nextLine();
+
+                if (accountStorage.getHashMap().containsKey(bankAccountLogin_nameIn)) {
+                    System.out.println("Successfully logged in!");
+                } else {
+                    System.out.println("\n Not a valid account!");
+                    System.out.println("Now you must restart the process!");
+                    mainMenu();
+                    return;
+                }
+
                 Scanner configWhatScanner = new Scanner(System.in);
-                System.out.println("What would you like to configure with your bank account?");
+                System.out.println("\n \nWhat would you like to configure with your bank account?");
                 System.out.println("Your options are: \n");
 
                 Thread.sleep(1000);
 
-                System.out.println("-DebitCard  -- With this you can set a DebitCard to your bank account");
+                System.out.println("-DebitCard (With this you can set a DebitCard to your bank account)");
+
+                String configWhatString = configWhatScanner.nextLine();
+
+                switch (configWhatString.toLowerCase()) {
+                    case "debitcard":
+                        Thread.sleep(3000);
+
+                        System.out.println("\n\nGreat, now you can link your bank account to your DebitCard! \n");
+                        Thread.sleep(200);
+                        System.out.println("But first you have to log in to your Bank account. \n");
+
+                        Thread.sleep(600);
+
+                        Scanner bankAccountLoginScanner = new Scanner(System.in);
+                        System.out.println("Please enter in your bank account's username.");
+                        String bankAccountLoginIn = bankAccountLoginScanner.nextLine();
+
+                        if (!accountStorage.getHashMap().containsKey(bankAccountLoginIn)) {
+                            System.out.println("\nThat is not a proper account, please login with an actual account next time!");
+
+                            System.out.println("Returning to the main menu...");
+                            Thread.sleep(1500);
+
+                            mainMenu();
+                            return;
+                        }
+
+                        System.out.println("Thanks.");
+
+                        Thread.sleep(800);
+
+                        Scanner debitCardLoginScanner = new Scanner(System.in);
+                        System.out.println("\nWhat is the name of your DebitCard account?");
+                        String debitCardLoginIn = debitCardLoginScanner.nextLine();
+
+
+                        for (String accountNameForLoop : accountStorage.getCardBankDetails().keySet()) {
+                            if (accountNameForLoop.equals(debitCardLoginIn)) {
+                                BankAccount bankAccount = accountStorage.getHashMap().get(bankAccountLoginIn);
+                                DebitCard cardAccount = accountStorage.getCardBankDetails().get(accountNameForLoop);
+
+                                bankAccount.registerCard(cardAccount);
+                                cardAccount.setBankAccount(bankAccount);
+
+                                Thread.sleep(500);
+
+                                System.out.println("Successfully linked accounts!");
+                                System.out.println("Returning to the main menu!");
+
+                                Thread.sleep(2000);
+
+                                mainMenu();
+                                return;
+                            } else {
+                                System.out.println("\n Account not found! Please enter a valid account! Restarting process!");
+                                Thread.sleep(1800);
+                                mainMenu();
+                                return;
+                            }
+                        }
+                        break;
+
+                    default:
+                        System.out.println("You did not write a proper response, now you must repeat the process!");
+
+                        mainMenu();
+                        return;
+                }
                 break;
 
             default:
@@ -154,7 +250,7 @@ public class Main {
 
                 Thread.sleep(2000);
 
-                bankMenu();
+                mainMenu();
                 break;
         }
     }
@@ -227,16 +323,16 @@ public class Main {
 
                     System.out.println("Your DebitCard balance is " + card.getBalance());
 
+                    Thread.sleep(3000);
+
                     mainMenu();
                     return;
 
                 } else {
                     System.out.println("This account name is already taken, please restart the process.");
-
                     debitCardMenu();
+                    return;
                 }
-
-                break;
 
             case "view":
                 //line breaks
@@ -271,9 +367,10 @@ public class Main {
                         System.out.println("\n");
                         System.out.println("\n");
 
+                        System.out.println("Your bank account which is linked to this card is " + card.getBankAccount().getAccountName());
                         System.out.println("Your account balance is " + card.getBalance());
                         System.out.println("Your card number is " + card.getCardNumber());
-                        System.out.println("And your account name is " + card.getAccountName());
+                        System.out.println("And your account name is " + card.getAccountName() + "\n");
 
                         Scanner mainMenuQuestionScanner = new Scanner(System.in);
                         System.out.println("Would you like to go the main menu or exit? Please type Exit or Menu");
@@ -289,7 +386,6 @@ public class Main {
                             default:
                                 System.out.println("Exiting.");
                                 return;
-
                         }
                     } else {
                         System.out.println("The account is not valid!");
@@ -301,7 +397,6 @@ public class Main {
                 break;
 
             default:
-
                 System.out.println("Please enter a valid response!");
 
                 Thread.sleep(2000);

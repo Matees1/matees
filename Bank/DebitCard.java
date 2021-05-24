@@ -16,6 +16,10 @@ public class DebitCard {
         }
     }
 
+    public void setBankAccount(BankAccount account) {
+        this.bankAccount = account;
+    }
+
     public BankAccount getBankAccount() {
         return this.bankAccount;
     }
