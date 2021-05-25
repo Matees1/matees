@@ -13,11 +13,6 @@ public class accountStorage {
         return bankCardLinkStorage;
     }
 
-    public static void setBankCardLinkStorage(HashMap<BankAccount, DebitCard> bankCardLinkStorage) {
-        accountStorage.bankCardLinkStorage = bankCardLinkStorage;
-    }
-
-
     public static HashMap<String, DebitCard> getCardBankDetails() {
         return cardBankStorage;
     }
@@ -33,5 +28,9 @@ public class accountStorage {
 
     public static void addAccount(String accountName, BankAccount acc) {
         hashMap.put(accountName, acc);
+    }
+
+    public static void setBankCardLinkStorage(BankAccount account, DebitCard cardAccount) {
+        bankCardLinkStorage.put(account, cardAccount);
     }
 }

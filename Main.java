@@ -282,6 +282,8 @@ public class Main {
                                 BankAccount bankAccount = accountStorage.getHashMap().get(bankAccountLoginIn);
                                 DebitCard cardAccount = accountStorage.getCardBankDetails().get(accountNameForLoop);
 
+                                accountStorage.setBankCardLinkStorage(bankAccount, cardAccount);
+
                                 bankAccount.registerCard(cardAccount);
                                 cardAccount.setBankAccount(bankAccount);
 
@@ -558,15 +560,15 @@ public class Main {
 
                                     mainMenu();
                                     return;
-                                }else{
+                                } else {
                                     System.out.println("The amount you specified is larger than your balance! Returning to menu");
-                                        
+
                                     Thread.sleep(1800);
 
                                     mainMenu();
                                     return;
                                 }
-                            }else{
+                            } else {
                                 System.out.println("The account you specified is not linked to this card but another!");
 
                                 Thread.sleep(2000);
@@ -576,7 +578,8 @@ public class Main {
                             }
 
                         } else {
-                            System.out.println("That isn't a valid amount, make sure that you deposit money that you own!");
+                            System.out.println("This bank account is not linked to anything! Returning to menu.");
+                            System.out.println(accountStorage.getBankCardLinkStorage());
 
                             Thread.sleep(1800);
                             mainMenu();
